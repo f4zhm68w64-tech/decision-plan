@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#111827">
+<title>Plan Builder</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#f5f6f8}
+*{box-sizing:border-box} body{margin:0} button,input,textarea,select{font:inherit}
+header{position:sticky;top:0;background:#111827;color:white;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;z-index:5}
+header b{font-size:19px}.wrap{max-width:780px;margin:auto;padding:16px 16px calc(30px + env(safe-area-inset-bottom))}
+.card{background:white;border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 1px 7px #0001}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.grow{flex:1}.btn{border:0;border-radius:12px;padding:11px 14px;background:#e8ebf0;color:#111827;font-weight:650}.primary{background:#111827;color:white}.danger{background:#fee2e2;color:#991b1b}
+input,textarea,select{width:100%;border:1px solid #d7dce3;border-radius:11px;padding:10px;background:white}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}
+.muted{color:#667085;font-size:14px}.hide{display:none!important}.tabs{display:flex;gap:8px;margin-top:10px}.tabs .btn{flex:1}
+.choice{width:100%;text-align:left;border:0;background:white;border-radius:18px;padding:0;overflow:hidden;box-shadow:0 1px 8px #0002;margin:12px 0}
+.choice img,.hero{display:block;width:100%;max-height:280px;object-fit:cover}.choice .ct{padding:15px;font-size:18px;font-weight:700}
+.item img{width:100%;max-height:240px;object-fit:cover;border-radius:13px}.pill{font-size:12px;background:#eef2ff;padding:4px 8px;border-radius:999px}
+hr{border:0;border-top:1px solid #eceff3;margin:16px 0}h2,h3{margin:4px 0 10px}
+</style><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon.svg"></head>
+<body>
+<header><b>Decision Plan</b><div class="tabs"><button class="btn" onclick="showHome()">Planes</button><button class="btn" onclick="openPlayer()">▶ Ejecutar</button></div></header>
+<div id="app" class="wrap"></div>
+<script>
+const KEY="decision_planner_v3";
+let db={plans:[]}, current=null, history=[], awarded=[];
+function idbOpen(){return new Promise((resolve,reject)=>{const r=indexedDB.open("DecisionPlanDB",1);r.onupgradeneeded=()=>r.result.createObjectStore("kv");r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function idbLoad(){const d=await idbOpen();return new Promise((resolve,reject)=>{const r=d.transaction("kv").objectStore("kv").get(KEY);r.onsuccess=()=>resolve(r.result||{plans:[]});r.onerror=()=>reject(r.error)})}
+async function idbSave(){const d=await idbOpen();return new Promise((resolve,reject)=>{const r=d.transaction("kv","readwrite").objectStore("kv").put(db,KEY);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error)})}
+const $=s=>document.querySelector(s), uid=()=>crypto.randomUUID();
+function save(){idbSave()}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fileData(inp,cb){let f=inp.files[0]; if(!f)return cb(''); let r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)}
+function showHome(){current=null; $('#app').innerHTML=`<div class=card><h2>Mis planes</h2><p class=muted>Todo se guarda localmente en este navegador.</p><button class="btn primary" onclick="newPlan()">+ Nuevo plan</button> <button class=btn onclick="exportAll()">Exportar</button> <label class=btn style="display:inline-block">Importar<input class=hide type=file accept=.json onchange="importAll(this)"></label></div>`+db.plans.map(p=>`<div class=card><h3>${esc(p.name)}</h3><div class=row><button class="btn primary" onclick="editPlan('${p.id}')">Editar</button><button class=btn onclick="play('${p.id}')">▶ Probar</button><button class="btn danger" onclick="delPlan('${p.id}')">Eliminar</button></div><div class=muted>${p.decisions.length} decisiones · ${p.items.length} ítems</div></div>`).join('')}
+function newPlan(){let p={id:uid(),name:"Nuevo plan",start:null,decisions:[],items:[]};db.plans.push(p);save();editPlan(p.id)}
+function editPlan(id){current=db.plans.find(p=>p.id===id); renderBuilder()}
+function renderBuilder(){let p=current;$('#app').innerHTML=`<div class=card><h2>Builder</h2><label>Nombre del plan</label><input value="${esc(p.name)}" onchange="current.name=this.value;save()"><div class=row style="margin-top:12px"><button class="btn primary" onclick="addDecision()">+ Decisión</button><button class=btn onclick="addItem()">+ Ítem oculto</button><button class=btn onclick="play('${p.id}')">▶ Preview</button></div></div>
+<div class=card><h3>Ítems ocultos</h3>${p.items.length?p.items.map(i=>`<div><b>${esc(i.name)}</b> <button class=btn onclick="editItem('${i.id}')">Editar</button></div>`).join('<hr>'):'<span class=muted>Aún no hay ítems.</span>'}</div>
+<div class=card><h3>Decisiones</h3>${p.decisions.length?p.decisions.map((d,n)=>`<div><span class=pill>${p.start===d.id?'INICIO':'#'+(n+1)}</span> <b>${esc(d.text||'Sin título')}</b><div class=row><button class=btn onclick="editDecision('${d.id}')">Editar</button><button class=btn onclick="current.start='${d.id}';save();renderBuilder()">Hacer inicio</button></div></div>`).join('<hr>'):'<span class=muted>Aún no hay decisiones.</span>'}</div>`}
+function addItem(){let i={id:uid(),name:"Nuevo ítem",description:"",image:""};current.items.push(i);save();editItem(i.id)}
+function editItem(id){let i=current.items.find(x=>x.id===id);$('#app').innerHTML=`<div class=card><h2>Ítem oculto</h2><label>Nombre</label><input id=n value="${esc(i.name)}"><label>Descripción</label><textarea id=d>${esc(i.description)}</textarea><label>Imagen</label><input id=im type=file accept="image/*">${i.image?`<img class=hero src="${i.image}">`:''}<div class=row style="margin-top:14px"><button class="btn primary" onclick="saveItem('${id}')">Guardar</button><button class=btn onclick=renderBuilder()>Cancelar</button></div></div>`}
+function saveItem(id){let i=current.items.find(x=>x.id===id);i.name=$('#n').value;i.description=$('#d').value;fileData($('#im'),x=>{if(x)i.image=x;save();renderBuilder()})}
+function addDecision(){let d={id:uid(),text:"Nueva pregunta",image:"",options:[]};current.decisions.push(d);if(!current.start)current.start=d.id;save();editDecision(d.id)}
+function editDecision(id){let d=current.decisions.find(x=>x.id===id);$('#app').innerHTML=`<div class=card><h2>Decisión</h2><label>Pregunta / texto visible</label><textarea id=q>${esc(d.text)}</textarea><label>Imagen de la pregunta</label><input id=qim type=file accept="image/*">${d.image?`<img class=hero src="${d.image}">`:''}<div class=row style="margin-top:12px"><button class="btn primary" onclick="saveDecision('${id}')">Guardar pregunta</button><button class=btn onclick="addOption('${id}')">+ Opción</button><button class=btn onclick=renderBuilder()>Volver</button></div></div>`+d.options.map(o=>optionEditor(d,o)).join('')}
+function optionEditor(d,o){let decs=current.decisions.filter(x=>x.id!==d.id),items=current.items;return `<div class=card><h3>Opción visible</h3><label>Texto</label><input id="t_${o.id}" value="${esc(o.text||'')}"><label>Imagen</label><input id="img_${o.id}" type=file accept="image/*">${o.image?`<img class=hero src="${o.image}">`:''}<label>Ítem oculto otorgado</label><select id="it_${o.id}"><option value="">Ninguno</option>${items.map(i=>`<option value="${i.id}" ${o.itemId===i.id?'selected':''}>${esc(i.name)}</option>`).join('')}</select><label>Siguiente paso</label><select id="nx_${o.id}"><option value="END">FIN / mostrar resultado</option>${decs.map(x=>`<option value="${x.id}" ${o.next===x.id?'selected':''}>${esc(x.text)}</option>`).join('')}</select><div class=row style="margin-top:12px"><button class="btn primary" onclick="saveOption('${d.id}','${o.id}')">Guardar opción</button><button class="btn danger" onclick="delOption('${d.id}','${o.id}')">Eliminar</button></div></div>`}
+function addOption(did){let d=current.decisions.find(x=>x.id===did);d.options.push({id:uid(),text:"Nueva opción",image:"",itemId:"",next:"END"});save();editDecision(did)}
+function saveDecision(id){let d=current.decisions.find(x=>x.id===id);d.text=$('#q').value;fileData($('#qim'),x=>{if(x)d.image=x;save();editDecision(id)})}
+function saveOption(did,oid){let d=current.decisions.find(x=>x.id===did),o=d.options.find(x=>x.id===oid);o.text=$('#t_'+oid).value;o.itemId=$('#it_'+oid).value;o.next=$('#nx_'+oid).value;fileData($('#img_'+oid),x=>{if(x)o.image=x;save();editDecision(did)})}
+function delOption(did,oid){let d=current.decisions.find(x=>x.id===did);d.options=d.options.filter(x=>x.id!==oid);save();editDecision(did)}
+function delPlan(id){if(confirm("¿Eliminar este plan?")){db.plans=db.plans.filter(p=>p.id!==id);save();showHome()}}
+function openPlayer(){if(db.plans.length===1)return play(db.plans[0].id);$('#app').innerHTML='<div class=card><h2>Elegí un plan</h2></div>'+db.plans.map(p=>`<button class=choice onclick="play('${p.id}')"><div class=ct>${esc(p.name)}</div></button>`).join('')}
+function play(id){current=db.plans.find(p=>p.id===id);history=[];awarded=[];if(!current.start)return alert("Este plan no tiene decisión inicial.");renderPlay(current.start)}
+function renderPlay(id){let d=current.decisions.find(x=>x.id===id);if(!d)return results();$('#app').innerHTML=`<div class=card><div class=muted>${esc(current.name)}</div>${d.image?`<img class=hero src="${d.image}">`:''}<h2>${esc(d.text)}</h2></div>`+d.options.map(o=>`<button class=choice onclick="choose('${d.id}','${o.id}')">${o.image?`<img src="${o.image}">`:''}<div class=ct>${esc(o.text)}</div></button>`).join('')}
+function choose(did,oid){let d=current.decisions.find(x=>x.id===did),o=d.options.find(x=>x.id===oid);history.push({decisionId:did,optionId:oid});if(o.itemId)awarded.push(o.itemId);o.next==="END"?results():renderPlay(o.next)}
+function results(){let uniq=[...new Set(awarded)].map(id=>current.items.find(i=>i.id===id)).filter(Boolean);$('#app').innerHTML=`<div class=card><div class=muted>${esc(current.name)}</div><h2>Tu plan</h2><p>Este es el resultado de tus elecciones.</p></div>`+(uniq.length?uniq.map(i=>`<div class="card item">${i.image?`<img src="${i.image}">`:''}<h3>${esc(i.name)}</h3><div>${esc(i.description)}</div></div>`).join(''):`<div class=card>No se otorgaron ítems.</div>`)+`<div class=card><button class="btn primary" onclick="play('${current.id}')">Volver a empezar</button> <button class=btn onclick=showHome()>Salir</button></div>`}
+function exportAll(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.download='decision-planner-backup.json';a.click()}
+function importAll(inp){let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();showHome()}catch(e){alert("Archivo inválido")}};r.readAsText(inp.files[0])}
+idbLoad().then(x=>{db=x;showHome()}).catch(()=>showHome());
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));}
+</script></body></html>
