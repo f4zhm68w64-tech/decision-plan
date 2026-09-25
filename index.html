@@ -19,7 +19,7 @@ input,textarea,select{width:100%;border:1px solid #d7dce3;border-radius:11px;pad
 hr{border:0;border-top:1px solid #eceff3;margin:16px 0}h2,h3{margin:4px 0 10px}
 </style><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon.svg"></head>
 <body>
-<header><b>Decision Plan</b> <span style="font-size:12px;opacity:.65">v4.1</span><div class="tabs"><button class="btn" onclick="showHome()">Planes</button><button class="btn" onclick="openPlayer()">▶ Ejecutar</button></div></header>
+<header><b>Decision Plan</b> <span style="font-size:12px;opacity:.65">v4.2</span> <button id="updateAppBtn" class="btn" style="padding:5px 8px;font-size:12px;margin-left:8px" onclick="forceAppUpdate()">↻ Actualizar app</button><div class="tabs"><button class="btn" onclick="showHome()">Planes</button><button class="btn" onclick="openPlayer()">▶ Ejecutar</button></div></header>
 <div id="app" class="wrap"></div>
 <script>
 const KEY="decision_planner_v3";
@@ -60,5 +60,42 @@ function results(){
 async function exportAll(){let now=new Date();let payload={format:"DecisionPlanBackup",version:1,exportedAt:now.toISOString(),data:db};let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));a.download='DecisionPlan-backup-'+now.toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();localStorage.setItem("dp_last_backup",now.toISOString());setTimeout(()=>URL.revokeObjectURL(a.href),1000);showHome()}
 function importAll(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=async()=>{try{let parsed=JSON.parse(r.result);let restored=(parsed&&parsed.format==="DecisionPlanBackup")?parsed.data:parsed;if(!restored||!Array.isArray(restored.plans))throw 0;if(!confirm(`Restaurar este backup reemplazará los ${db.plans.length} plan(es) actuales por ${restored.plans.length}. ¿Continuar?`))return;db=restored;await idbSave();showHome();alert("Backup restaurado correctamente.")}catch(e){alert("El archivo no es un backup válido de Decision Plan.")}};r.readAsText(f)}
 idbLoad().then(x=>{db=x;showHome()}).catch(()=>showHome());
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));}
+async function forceAppUpdate(){
+  const b=document.getElementById("updateAppBtn");
+  if(b){b.disabled=true;b.textContent="Buscando…";}
+  try{
+    if(!("serviceWorker" in navigator)){location.reload();return;}
+    const reg=await navigator.serviceWorker.getRegistration("./") || await navigator.serviceWorker.register("./sw.js");
+    await reg.update();
+    if(reg.waiting){
+      reg.waiting.postMessage({type:"SKIP_WAITING"});
+      return;
+    }
+    if(reg.installing){
+      reg.installing.addEventListener("statechange",()=>{
+        if(reg.installing && reg.installing.state==="installed"){
+          reg.installing.postMessage({type:"SKIP_WAITING"});
+        }
+      });
+      return;
+    }
+    location.reload();
+  }catch(e){
+    alert("No se pudo comprobar la actualización. Verificá la conexión e intentá nuevamente.");
+    if(b){b.disabled=false;b.textContent="↻ Actualizar app";}
+  }
+}
+if("serviceWorker" in navigator){
+  let reloading=false;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{
+    if(reloading)return; reloading=true; location.reload();
+  });
+  window.addEventListener("load",async()=>{
+    try{
+      const reg=await navigator.serviceWorker.register("./sw.js");
+      await reg.update();
+      if(reg.waiting) reg.waiting.postMessage({type:"SKIP_WAITING"});
+    }catch(e){}
+  });
+}
 </script></body></html>
