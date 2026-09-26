@@ -1,6 +1,5 @@
-Decision Plan v4.3
-
-- Resultados comienzan con “Prepárate para…”.
-- Se eliminó el encabezado previo del resultado.
-- Guardar una opción preserva los cambios realizados en todas las opciones visibles.
-- Añadir/eliminar opciones también preserva esos cambios.
+Decision Plan v4.6
+- Si la decisión es pregunta (¿ o ?), recorrido: “Pregunta: opción.”
+- Si no es pregunta, concatenación directa: “Decisión opción.”
+- Primera letra de la opción se convierte a minúscula.
+- Mantiene todas las mejoras de v4.5.
