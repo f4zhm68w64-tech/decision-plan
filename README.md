@@ -1,7 +1,7 @@
-Decision Plan v5.0
-- Conexiones entre planes: una opción puede ir al INICIO de otro plan.
-- Historial y hidden items continúan entre planes.
-- Clonar plan con IDs nuevos y referencias internas reescritas.
-- Advertencia al eliminar un plan referenciado.
-- Campos de texto de opciones más grandes y autoexpandibles al escribir.
-- Mantiene todas las funciones de v4.7.
+Decision Plan v5.1
+- Eliminar decisión aparece únicamente dentro de Editar decisión.
+- Si otras decisiones apuntan a la eliminada, se advierte y esas rutas pasan a FIN.
+- Si se elimina la decisión inicial, la siguiente disponible pasa a ser INICIO.
+- Toggle por plan: “Mostrar este plan en el panel Ejecutar”.
+- Planes ocultos siguen disponibles para conexiones entre planes y para Preview/Probar desde aquí.
+- Planes existentes y nuevos se muestran por defecto.
