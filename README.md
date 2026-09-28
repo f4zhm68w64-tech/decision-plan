@@ -1,7 +1,11 @@
-Decision Plan v5.6.1
-Hotfix del Builder agrupado:
-- Restaura openBuilder(), omitida accidentalmente en v5.6.
-- Editar vuelve a abrir correctamente cualquier Plan principal, secundario o Profundizar tema.
-- Nuevo crea el bloque y entra inmediatamente al Builder.
-- Agrega Volver a categorías dentro del Builder.
-- Clonar, Eliminar, Ejecución, Finalizaciones, sesiones y PIN se conservan.
+Decision Plan v5.7
+- Decisiones: título interno independiente del texto visible.
+- El título no se muestra en ejecución salvo toggle por decisión.
+- Builder y conexiones pueden identificar decisiones por título.
+- Clonar decisión con IDs nuevos para decisión, opciones y profundizaciones.
+- Se elimina el acceso redundante a Finalizaciones desde el Builder de cada plan.
+- Profundizar temas puede activarse mediante botones opcionales desde una decisión.
+- Finalizaciones también pueden ofrecer uno o varios botones de Profundizar.
+- Los botones de Profundizar sólo permiten elegir bloques de la categoría Profundizar temas.
+- Al profundizar se conserva el historial/ítems de la sesión y se continúa dentro del mismo flujo.
+- Mantiene PIN, sesión persistente, reanudación y correcciones previas.
