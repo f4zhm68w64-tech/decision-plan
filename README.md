@@ -1,2 +1,1 @@
-Decision Plan v5.5
-Sesión persistente, retorno protegido a Administración mediante PIN local y botón Finalizar configurable.
+Decision Plan v5.5.1 hotfix: finalización, reanudación exacta y engranaje de administración con PIN.
