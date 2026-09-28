@@ -1,2 +1,12 @@
-Decision Plan v5.8.1
-Hotfix: Volver al resultado del plan restaura el snapshot completo previo a Ideas, incluyendo decisiones e ítems, y evita sobrescribirlo al renderizar.
+Decision Plan v5.9
+- Nuevo modelo estructurado de Ideas con niveles Soft, Medium y Hard.
+- Soft y Medium: narrativa + opciones Sí / No / Subir, con textos visibles totalmente editables.
+- Hard: narrativa + Sí / No.
+- R1 sortea una Idea completa y siempre comienza por Soft; sólo Subir escala a Medium/Hard.
+- Finalizaciones: modo Todas o R1 y toggle Incluir todas las Ideas.
+- Con Incluir todas no hace falta mantener manualmente el pool; desactivado usa la selección manual.
+- Sí muestra como resultado únicamente la narrativa del nivel alcanzado; No vuelve al resultado original del plan; las opciones no aparecen en el resultado.
+- Se conserva el snapshot del plan/finalización al explorar Ideas.
+- Ideas existentes se migran de forma compatible: su definición previa se usa como Soft y los datos legacy permanecen almacenados.
+- Clonado de Ideas copia independientemente sus niveles.
+- Corregido además el clonado de planes para preservar destinos a Finalizaciones.
