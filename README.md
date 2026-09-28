@@ -1,11 +1,11 @@
-Decision Plan v5.7
-- Decisiones: título interno independiente del texto visible.
-- El título no se muestra en ejecución salvo toggle por decisión.
-- Builder y conexiones pueden identificar decisiones por título.
-- Clonar decisión con IDs nuevos para decisión, opciones y profundizaciones.
-- Se elimina el acceso redundante a Finalizaciones desde el Builder de cada plan.
-- Profundizar temas puede activarse mediante botones opcionales desde una decisión.
-- Finalizaciones también pueden ofrecer uno o varios botones de Profundizar.
-- Los botones de Profundizar sólo permiten elegir bloques de la categoría Profundizar temas.
-- Al profundizar se conserva el historial/ítems de la sesión y se continúa dentro del mismo flujo.
-- Mantiene PIN, sesión persistente, reanudación y correcciones previas.
+Decision Plan v5.8
+- Profundizar temas pasa a Ideas conservando internamente type=deep para migrar datos existentes sin perderlos.
+- Cada Idea incorpora una Definición.
+- Sus decisiones son navegación interna: las opciones deciden el destino pero no se incorporan al resultado.
+- El resultado de una Idea muestra únicamente nombre + definición final.
+- Una Idea puede llevar a otra Idea.
+- Las Finalizaciones incorporan texto introductorio a Ideas.
+- Modo Todas: muestra las Ideas configuradas.
+- Modo Random: muestra una ruleta y selecciona aleatoriamente una Idea del pool configurado.
+- Volver desde una Idea restaura el resultado original del plan y su sesión.
+- Conserva títulos internos/toggle de decisiones, clonado, PIN, sesiones, backups y conexiones anteriores.
