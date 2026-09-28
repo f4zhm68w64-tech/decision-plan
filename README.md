@@ -1,11 +1,2 @@
-Decision Plan v5.8
-- Profundizar temas pasa a Ideas conservando internamente type=deep para migrar datos existentes sin perderlos.
-- Cada Idea incorpora una Definición.
-- Sus decisiones son navegación interna: las opciones deciden el destino pero no se incorporan al resultado.
-- El resultado de una Idea muestra únicamente nombre + definición final.
-- Una Idea puede llevar a otra Idea.
-- Las Finalizaciones incorporan texto introductorio a Ideas.
-- Modo Todas: muestra las Ideas configuradas.
-- Modo Random: muestra una ruleta y selecciona aleatoriamente una Idea del pool configurado.
-- Volver desde una Idea restaura el resultado original del plan y su sesión.
-- Conserva títulos internos/toggle de decisiones, clonado, PIN, sesiones, backups y conexiones anteriores.
+Decision Plan v5.8.1
+Hotfix: Volver al resultado del plan restaura el snapshot completo previo a Ideas, incluyendo decisiones e ítems, y evita sobrescribirlo al renderizar.
