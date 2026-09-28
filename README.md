@@ -1,5 +1,6 @@
-Decision Plan v5.5.2
-Hotfix finalizaciones:
-- Corrige el selector de Siguiente paso: FIN estándar ya no queda seleccionado por defecto cuando la opción apunta a una Finalización.
-- Evita que al reabrir/guardar una decisión se reemplace silenciosamente FINAL:<id> por END.
-- Conserva sesión persistente, reanudación, PIN y engranaje de administración.
+Decision Plan v5.5.3
+Hotfix definitivo de Finalización:
+- Restaura sentenceForChoice() y lowerFirst(), funciones eliminadas accidentalmente al introducir la persistencia de sesión.
+- results() dependía de esas funciones; por eso al elegir FIN estándar o una Finalización el JavaScript se detenía y la última decisión quedaba en pantalla.
+- Mantiene el arreglo del selector de Finalización de v5.5.2.
+- Mantiene sesión persistente, Continuar ejecución, PIN y engranaje de Administración.
