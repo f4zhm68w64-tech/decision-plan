@@ -1,9 +1,7 @@
-Decision Plan v5.9.0
-- Puntos por opción (positivos, cero o negativos), acumulados sólo durante la sesión.
-- Score interno {general:n}, preparado para futuros ejes.
-- Persistencia del puntaje al continuar sesión y al entrar/salir de Ideas.
-- Disponibilidad opcional por puntaje mínimo/máximo para Ideas y planes.
-- R1 filtra Ideas por disponibilidad antes del sorteo.
-- Conexiones directas a Ideas/planes también validan disponibilidad.
-- Toggle por plan para mostrar el puntaje al finalizar (apagado por defecto).
-- Conserva Soft/Medium/Hard, R1, narrativas y resultado final de v5.8.4.
+Decision Plan v5.9.1
+- Toggle para activar/desactivar Administración.
+- Desactivar exige el PIN ya configurado. Si no existe, primero permite configurarlo.
+- Activar usa el PIN existente mediante el flujo normal; no cambia ni recrea el PIN.
+- Gestión de PIN sigue siendo independiente.
+- Clonar Finalizaciones desde su listado, con IDs nuevos para la copia y sus enlaces.
+- Conserva puntaje, restricciones, R1 e Ideas de v5.9.0.
