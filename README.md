@@ -1,9 +1,7 @@
-Decision Plan v5.9.3
-Corrección de Administración:
-- Protección desactivada significa SIN PIN en ambos sentidos durante troubleshooting.
-- Ejecución -> Planes/Administración entra directamente sin PIN.
-- Botón/engranaje Administración al final de una ejecución entra directamente sin PIN.
-- Planes -> Ejecución entra directamente sin PIN.
-- Protección activada conserva el control por PIN.
-- El toggle sigue apareciendo sólo dentro de Planes/Administración.
-- Corrige el etiquetado heredado 5.9.2.1: esta versión se identifica únicamente como 5.9.3.
+Decision Plan v5.9.4
+Semántica definitiva del toggle Administración:
+- Planes -> Modo Ejecución nunca pide PIN.
+- Con Administración/protección ACTIVADA: funciona como antes del toggle. En Ejecución aparece ⚙ Administración y ese regreso a Administración pide PIN.
+- Con Administración/protección DESACTIVADA: el mismo botón ⚙ Administración aparece, pero no pide PIN; tampoco hay PIN en ningún otro recorrido.
+- El toggle sigue configurándose solamente desde Planes/Administración.
+- Mantiene clonado de finalizaciones, puntaje, restricciones, R1 e Ideas.
