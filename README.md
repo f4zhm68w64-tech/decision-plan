@@ -1,12 +1,6 @@
-Decision Plan v5.8.2
-- Parte de v5.8.1 y conserva sin modificar los campos legacy de Ideas.
-- Ideas estructuradas Soft / Medium / Hard.
-- Soft y Medium: Sí / No / Subir. Hard: Sí / No.
-- Subir acepta el nivel actual y escala.
-- No en Soft vuelve al resultado del plan.
-- No en Medium finaliza mostrando el texto final Soft.
-- No en Hard finaliza mostrando el texto final Medium.
-- Tres textos finales configurables, visibles sólo al quedar definido el resultado.
-- El resultado de una Idea permite volver al resultado del plan.
-- El resultado del plan permite volver al último resultado de Idea revisado.
-- R1: Idea aleatoria, siempre comienza por Soft; toggle Incluir todas las Ideas.
+Decision Plan v5.8.4
+Resultado final de Idea:
+1. Nombre de la Idea.
+2. Narrativa ganadora/seleccionada (Soft, Medium o Hard), sin mostrar la etiqueta del nivel.
+3. Texto final configurado para ese nivel.
+Mantiene el resto de v5.8.3 sin cambios.
