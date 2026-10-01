@@ -1,7 +1,8 @@
-Decision Plan v5.10.0
-- Cada opción puede otorgar múltiples ítems ocultos.
-- Compatibilidad automática con itemId histórico mediante optionItemIds().
-- Cada opción puede resolver decisiones omitidas indicando qué opción se asume.
-- Las decisiones resueltas automáticamente NO se agregan al recorrido visible.
-- Sí aplican sus puntos e ítems.
-- Clonar plan remapea itemIds y referencias de resoluciones automáticas.
+Decision Plan v5.10.1
+- Disponibilidad por puntaje en cada opción de decisión.
+- Si una decisión queda sin opciones elegibles, usa un routing configurable a decisión/plan/finalización/FIN.
+- Disponibilidad por puntaje independiente en Soft, Medium y Hard.
+- Subir en Ideas salta niveles no elegibles y busca el siguiente disponible.
+- Si no hay nivel superior disponible, el nivel actual queda como resultado final.
+- Inicio de Idea entra al primer nivel elegible; si ninguno está disponible vuelve al resultado del plan.
+- Mantiene compatibilidad con datos existentes.
