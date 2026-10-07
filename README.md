@@ -1,7 +1,7 @@
-Decision Plan v5.10.3
-- Backup cifrado opcional .dpbackup.
-- AES-256-GCM mediante Web Crypto API.
-- Clave derivada de contraseña con PBKDF2-SHA-256, salt aleatorio e iteraciones guardadas en el envelope.
-- La contraseña nunca se guarda.
-- Restauración detecta automáticamente JSON histórico o .dpbackup cifrado.
-- Se conserva exportación JSON sin cifrar como alternativa.
+Decision Plan v5.11.0
+- Ítems con campo Tipo y presentación agrupada por tipo en pantallas de ítems.
+- Las opciones Sí/No/Subir de cada nivel de Idea pueden otorgar múltiples ítems.
+- Al finalizar una Idea, si se agregaron ítems, muestra notice y botón para verlos; se puede volver al resultado de la Idea.
+- R1/ruleta muestra la Idea candidata y un texto editable antes de entrar, con Ver esta idea / Prefiero otra.
+- La selección alternativa de ruleta ocurre antes de aplicar consecuencias; los ítems sólo se asignan al recorrer la Idea aceptada.
+- Se mantiene compatibilidad con ítems sin tipo (se agrupan como “Sin tipo”).
