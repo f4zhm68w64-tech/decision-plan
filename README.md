@@ -1,7 +1,9 @@
-Decision Plan v5.11.0
-- Ítems con campo Tipo y presentación agrupada por tipo en pantallas de ítems.
-- Las opciones Sí/No/Subir de cada nivel de Idea pueden otorgar múltiples ítems.
-- Al finalizar una Idea, si se agregaron ítems, muestra notice y botón para verlos; se puede volver al resultado de la Idea.
-- R1/ruleta muestra la Idea candidata y un texto editable antes de entrar, con Ver esta idea / Prefiero otra.
-- La selección alternativa de ruleta ocurre antes de aplicar consecuencias; los ítems sólo se asignan al recorrer la Idea aceptada.
-- Se mantiene compatibilidad con ítems sin tipo (se agrupan como “Sin tipo”).
+Decision Plan v5.12.0
+- Tags independientes para clasificar ítems en el momento en que son otorgados.
+- ABM de tags: crear, renombrar y eliminar.
+- Cada asignación de ítem desde una opción de decisión o Sí/No/Subir de una Idea guarda itemId + tagId.
+- Un mismo ítem puede otorgarse con tags distintos en contextos distintos.
+- Pantallas de ítems agrupan por el tag del otorgamiento; sin tag se muestra como “Sin tag”.
+- Migración conservadora desde v5.11.0: los antiguos Tipos se convierten en tags y se aplican a asignaciones existentes.
+- Eliminar un tag no elimina ítems; las asignaciones quedan sin tag.
+- Se preservan backup cifrado, puntajes, Ideas, Finalizaciones y compatibilidad de datos.
