@@ -1,5 +1,7 @@
-Decision Plan v5.10.2
-- Finalizaciones: opción para mostrar los ítems obtenidos en una pantalla separada.
-- Texto del botón configurable por finalización.
-- La pantalla de ítems tiene botón Volver y retorna a la misma finalización sin alterar la sesión.
-- Por compatibilidad, las finalizaciones existentes siguen mostrando ítems inline hasta activar la nueva opción.
+Decision Plan v5.10.3
+- Backup cifrado opcional .dpbackup.
+- AES-256-GCM mediante Web Crypto API.
+- Clave derivada de contraseña con PBKDF2-SHA-256, salt aleatorio e iteraciones guardadas en el envelope.
+- La contraseña nunca se guarda.
+- Restauración detecta automáticamente JSON histórico o .dpbackup cifrado.
+- Se conserva exportación JSON sin cifrar como alternativa.
