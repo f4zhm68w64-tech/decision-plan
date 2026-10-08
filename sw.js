@@ -1,4 +1,4 @@
-const C="decision-plan-v5-12-4";
+const C="decision-plan-v5-12-5";
 const A=["./","./index.html","./manifest.webmanifest","./icon.svg"];
 
 self.addEventListener("install",e=>{

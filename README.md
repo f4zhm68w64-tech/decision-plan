@@ -1,1 +1,1 @@
-Decision Plan v5.12.4: scroll al inicio en cada pantalla; Borrar todo con doble confirmación, eliminación de IndexedDB, estado local, caché y registro del service worker. No borra archivos descargados ni historial del navegador.
+Decision Plan v5.12.5: Privacidad y datos ahora aparece en la pantalla principal de Administración, no en Ítems ocultos. Corrige el identificador de la base de datos en Borrar todo.
