@@ -1,5 +1,1 @@
-Decision Plan v5.12.3
-- Corrige eliminación de asignaciones de ítems cuando existen filas vacías.
-- Las filas vacías se preservan en el estado del editor hasta guardar/seleccionar.
-- Cada asignación de ítem tiene su propio botón Quitar; elimina exactamente esa fila.
-- La ejecución continúa ignorando asignaciones sin ítem.
+Decision Plan v5.12.4: scroll al inicio en cada pantalla; Borrar todo con doble confirmación, eliminación de IndexedDB, estado local, caché y registro del service worker. No borra archivos descargados ni historial del navegador.
