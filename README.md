@@ -1,1 +1,3 @@
-Decision Plan v5.12.7: Ideas con botón Administrar y listado dedicado; ruleta con botón negro, etiqueta editable, y pantalla de selección con título, giros y propuesta en ese orden.
+Decision Plan v5.12.8: estilo de botón de ítems, volver al plan desde ruleta, fallback por puntaje a finalizaciones.
+
+5.12.9: Imagenes de items obtenidos completas, sin recorte horizontal (object-fit: contain).
