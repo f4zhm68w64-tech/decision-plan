@@ -1,1 +1,1 @@
-Decision Plan v5.12.6: costo por giro, contador por sesión, aviso editable y ruleta oculta cuando no hay giros.\n
+Decision Plan v5.12.7: Ideas con botón Administrar y listado dedicado; ruleta con botón negro, etiqueta editable, y pantalla de selección con título, giros y propuesta en ese orden.
