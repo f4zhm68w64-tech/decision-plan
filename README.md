@@ -1,3 +1,1 @@
-Decision Plan v5.12.8: estilo de botón de ítems, volver al plan desde ruleta, fallback por puntaje a finalizaciones.
-
-5.12.9: Imagenes de items obtenidos completas, sin recorte horizontal (object-fit: contain).
+Decision Plan v5.13.0: preserve scroll position when the same editor is redrawn; reset to top on navigation.
