@@ -1,1 +1,1 @@
-Decision Plan v5.13.0: preserve scroll position when the same editor is redrawn; reset to top on navigation.
+Decision Plan v5.13.1: Resolver decisiones omitidas permite elegir plan de origen, decisión y opción. Mantiene compatibilidad y clonado.
